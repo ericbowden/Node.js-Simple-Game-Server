@@ -1,5 +1,10 @@
 (function() {
 
+socket = io.connect(window.location.href);
+Players = {};
+keys = [];
+pause = false;
+
 window.requestAnimFrame = (function(callback){
     return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -32,11 +37,6 @@ function animate(lastTime){
 		animate(lastTime);
 	});
 }
-
-socket = io.connect('http://yuccaberry.no-ip.org:3000/');
-Players = {};
-keys = [];
-pause = false;
 
 $(document).keydown(function(e){
 	var key = (e.keyCode ? e.keyCode : e.which);
