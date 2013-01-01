@@ -5,6 +5,7 @@ Players = {};
 keys = [];
 pause = false;
 timer = new Timer();
+playableId=null;
 
 window.requestAnimFrame = (function(callback){
     return window.requestAnimationFrame ||
@@ -19,15 +20,21 @@ window.requestAnimFrame = (function(callback){
 
 function animate(){
 
+	var period = timer.getPeriod();
+
+	socket.emit('sync',period);
+	
+	if(Players[playableId])
+		Players[playableId].update(period);
+
 	//if(!pause) {
-		//update
-		
-		var period = timer.getPeriod();
-		
-		
-		for(var p in Players)
-			Players[p].update(period);	
+		//update		
+		//var period = timer.getPeriod();
+		//for(var p in Players)
+		//	Players[p].update(period);	
 	//}
+	
+	
 	
 	for(var p in Players)
 		Players[p].paint();
@@ -65,6 +72,8 @@ $(document).ready(function(){ //main function
 
 	socket.on('init', function (players,id) {
 		console.log(players,'init');
+		playableId=id;
+		
 		Players = {};
 		for(var p in players)
 			Players[p] = new Player(players[p],id==p?1:0);
@@ -95,8 +104,8 @@ $(document).ready(function(){ //main function
 			Players[p].left = players[p].left;
 			//console.log(players[p].top,players[p].left);
 		}
-		//console.timeEnd("time");
-		pause=false;
+		console.timeEnd("time");
+		//pause=false;
 		//console.log('syncing');
 	});
 	

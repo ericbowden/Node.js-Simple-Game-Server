@@ -35,14 +35,21 @@ io.sockets.on('connection', function(client){
 	//client.emit('message',players);
 
 	//on client message receive
-    client.on('sync', function(id,left,top){
+    client.on('update', function(id,left,top){
     	//console.log(newData,players[newData.id]);
 		//players = newData;
         //players[newData.id]= newData;
         players[id].left = left;
         players[id].top = top;
         //client.broadcast.emit('sync',players);
-        io.sockets.emit('sync',players);
+        //io.sockets.emit('sync',players);
+        //client.emit('sync',players);
+    });
+    
+    client.on('sync', function(data) {
+    	//console.log(data);
+    	//io.sockets.emit('sync',players);
+    	client.emit('sync',players);
     });
 
 	//on client receive
