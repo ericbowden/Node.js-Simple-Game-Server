@@ -4,6 +4,7 @@ socket = io.connect(window.location.href);
 Players = {};
 keys = [];
 pause = false;
+timer = new Timer();
 
 window.requestAnimFrame = (function(callback){
     return window.requestAnimationFrame ||
@@ -16,25 +17,23 @@ window.requestAnimFrame = (function(callback){
     };
 })();
 
-function animate(lastTime){
+function animate(){
 
-	if(!pause) {
+	//if(!pause) {
 		//update
-		var date = new Date();
-		var time = date.getTime();
-		var timeDiff = time - lastTime;
-		lastTime = time;
-		var period = timeDiff / 1000;
+		
+		var period = timer.getPeriod();
+		
 		
 		for(var p in Players)
 			Players[p].update(period);	
-	}
+	//}
 	
 	for(var p in Players)
 		Players[p].paint();
 
 	requestAnimFrame(function(){
-		animate(lastTime);
+		animate();
 	});
 }
 
@@ -63,19 +62,7 @@ $(window).blur(function() {
 });
 
 $(document).ready(function(){ //main function
-	 /*$('#send').click(function() {
-		var msg = $('#field').val();
-		if(msg) {
-			socket.send(msg);
-			$('body').append('</br>You say: '+msg);
-			$('#field').val('');
-		}
-	});
-		
-	$('form').on('submit', function () {
-		return false;
-	});*/
-	
+
 	socket.on('init', function (players,id) {
 		console.log(players,'init');
 		Players = {};
@@ -106,12 +93,13 @@ $(document).ready(function(){ //main function
 		for(var p in players) {
 			Players[p].top = players[p].top;
 			Players[p].left = players[p].left;
-			console.log(players[p].top,players[p].left);
+			//console.log(players[p].top,players[p].left);
 		}
-		console.timeEnd("time");
+		//console.timeEnd("time");
 		pause=false;
 		//console.log('syncing');
 	});
+	
 	
 	animate();
 });

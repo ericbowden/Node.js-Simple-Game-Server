@@ -1,0 +1,20 @@
+{
+  "name": "Node.js-Simple-Game-Server",
+  "version": "1.0.0",
+  "description": "Simple game server using Node.js and Socket.IO",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ericbowden/Node.js-Simple-Game-Server.git"
+  },
+  "dependencies": {
+      "express": "3.0.5",
+      "socket.io": "0.9.13"
+   },
+  "author": "Eric Bowden",
+  "license": "BSD",
+  "readmeFilename": "README.md"
+}

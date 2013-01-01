@@ -42,8 +42,8 @@ function Player(data, playable) {
 			//this.top = newTop;
 			//console.log('new');
 			//socket.emit('sync',Players);
-			console.time("time");
-			console.log(newTop,newLeft);
+			//console.time("time");
+			//console.log(newTop,newLeft);
 			socket.emit('sync',this.id,newLeft,newTop);
 			pause=true;
 		}

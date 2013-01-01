@@ -1,4 +1,4 @@
-Node.js-Simple-Game
+Node.js-Simple-Game-Server
 ===================
 
 A simple game server using [Node.js](http://nodejs.org/) and [Socket.IO](http://socket.io/)
@@ -13,3 +13,5 @@ Then to start the server:
     node app.js
     
 This will start the server on port 3000, navigate to http://localhost:3000/ in a browser
+
+Other computers can connect to the server through your computer's IP address
