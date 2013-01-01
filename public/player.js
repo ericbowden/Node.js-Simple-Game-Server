@@ -22,7 +22,7 @@ function Player(data, playable) {
 		var newLeft = this.left;
 		var newTop = this.top;
 
-		var linearSpeed = 300; //px/s
+		var linearSpeed = 500; //px/s
 		var linearDistEachFrame = linearSpeed * period;
 		
 		if(keys[util.VK_LEFT])
@@ -42,10 +42,10 @@ function Player(data, playable) {
 			//this.top = newTop;
 			//console.log('new');
 			//socket.emit('sync',Players);
-			console.time("time");
+			//console.time("time");
 			//console.log(newTop,newLeft);
 			socket.emit('update',this.id,newLeft,newTop);
-			//pause=true;
+			pause=true;
 		}
 	}
 	

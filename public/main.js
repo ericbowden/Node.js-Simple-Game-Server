@@ -1,6 +1,6 @@
 (function() {
 
-socket = io.connect(window.location.href);
+socket = io.connect('/');
 Players = {};
 keys = [];
 pause = false;
@@ -22,7 +22,8 @@ function animate(){
 
 	var period = timer.getPeriod();
 
-	socket.emit('sync',period);
+	if(!pause)
+		socket.emit('sync',period);
 	
 	if(Players[playableId])
 		Players[playableId].update(period);
@@ -104,8 +105,8 @@ $(document).ready(function(){ //main function
 			Players[p].left = players[p].left;
 			//console.log(players[p].top,players[p].left);
 		}
-		console.timeEnd("time");
-		//pause=false;
+		//console.timeEnd("time");
+		pause=false;
 		//console.log('syncing');
 	});
 	
