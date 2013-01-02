@@ -265,7 +265,6 @@ Timer = function () {
 		return period;
 	};*/
 	
-	//33 frames/sec
 	this.getPeriod = function() {
 		return this.getTimeDiff(new Date().getTime()) / 1000; 
 	};

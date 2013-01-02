@@ -5,6 +5,7 @@ Players = {};
 keys = [];
 pause = false;
 timer = new Timer();
+timer2 = new Timer();
 playableId=null;
 
 window.requestAnimFrame = (function(callback){
@@ -22,12 +23,12 @@ function animate(){
 
 	var period = timer.getPeriod();
 
-	if(!pause)
-		socket.emit('sync',period);
-	
-	if(Players[playableId])
-		Players[playableId].update(period);
-
+	//if(!pause) {
+		//socket.emit('sync',period);
+		
+		if(Players[playableId])
+			Players[playableId].update(period);
+	//}
 	//if(!pause) {
 		//update		
 		//var period = timer.getPeriod();
@@ -98,7 +99,7 @@ $(document).ready(function(){ //main function
 		delete Players[player.id];
 	});
 	
-	socket.on('sync', function (players) {
+	socket.on('sync', function (players,time) {
 
 		for(var p in players) {
 			Players[p].top = players[p].top;
@@ -107,7 +108,7 @@ $(document).ready(function(){ //main function
 		}
 		//console.timeEnd("time");
 		pause=false;
-		//console.log('syncing');
+		//console.log(timer2.getTimeDiff(time));
 	});
 	
 	

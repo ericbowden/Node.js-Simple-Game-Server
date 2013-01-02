@@ -17,6 +17,12 @@ app.configure(function(){
 server.listen(3000);
 
 var players = {};
+
+setInterval(function(){
+	io.sockets.emit('sync',players,new Date().getTime());
+
+},45);
+
 io.sockets.on('connection', function(client){
 
 	//console.log(Date()+"\n");
@@ -48,8 +54,9 @@ io.sockets.on('connection', function(client){
     
     client.on('sync', function(data) {
     	//console.log(data);
+    	console.log('not used');
     	//io.sockets.emit('sync',players);
-    	client.emit('sync',players);
+    	client.emit('sync',players,new Date().getTime());
     });
 
 	//on client receive

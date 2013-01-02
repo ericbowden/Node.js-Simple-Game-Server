@@ -22,7 +22,7 @@ function Player(data, playable) {
 		var newLeft = this.left;
 		var newTop = this.top;
 
-		var linearSpeed = 500; //px/s
+		var linearSpeed = 300; //px/s
 		var linearDistEachFrame = linearSpeed * period;
 		
 		if(keys[util.VK_LEFT])
