@@ -279,3 +279,8 @@ Timer = function () {
 		return timeDiff;
 	};
 };
+
+if( 'undefined' != typeof global ) {
+    module.exports = global.Timer = Timer;
+    module.exports = global.util = util;
+}

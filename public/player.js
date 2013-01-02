@@ -14,7 +14,7 @@ function Player(data, playable) {
 	var $this = $('<div></div>').attr({'id':this.id}).css(css);
 	$('body').append($this);
 	
-	this.update = function(period) {
+	/*this.update = function(period) {
 	
 		if(!playable)
 			return;
@@ -47,6 +47,14 @@ function Player(data, playable) {
 			socket.emit('update',this.id,newLeft,newTop);
 			pause=true;
 		}
+	}*/
+	
+	this.update = function(period) {
+	
+		if(!playable)
+			return;
+			
+		socket.emit('update',this.id,keys);
 	}
 	
 	this.paint = function() {

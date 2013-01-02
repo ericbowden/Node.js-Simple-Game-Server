@@ -5,6 +5,8 @@ var express = require('express'),
   , io = require('socket.io').listen(server),
   fs = require('fs');
     //,util = require('util');
+    
+require('./public/util.js');
 
 io.set('log level', 2); // reduce logging
 //io.set('log level', 1); // only warnings and errors
@@ -17,6 +19,7 @@ app.configure(function(){
 server.listen(3000);
 
 var players = {};
+
 
 setInterval(function(){
 	io.sockets.emit('sync',players,new Date().getTime());
@@ -33,6 +36,7 @@ io.sockets.on('connection', function(client){
     clientObj.id = client.id;//;'User'+client.id.substr(client.id.length-3,3);
 	clientObj.top = 10;
 	clientObj.left = Math.random()*500;
+	var timer = new global.Timer();
     
     //io.sockets.emit('message','Send to all clients');
 
@@ -41,7 +45,7 @@ io.sockets.on('connection', function(client){
 	//client.emit('message',players);
 
 	//on client message receive
-    client.on('update', function(id,left,top){
+    /*client.on('update', function(id,left,top){
     	//console.log(newData,players[newData.id]);
 		//players = newData;
         //players[newData.id]= newData;
@@ -50,6 +54,37 @@ io.sockets.on('connection', function(client){
         //client.broadcast.emit('sync',players);
         //io.sockets.emit('sync',players);
         //client.emit('sync',players);
+    });*/
+    
+    //on client message receive
+    client.on('update', function(id,keys){
+
+		var player = players[id];
+
+		var newLeft = player.left;
+		var newTop = player.top;
+		var period = timer.getPeriod();
+
+		var linearSpeed = 300; //px/s
+		var linearDistEachFrame = linearSpeed * period;
+		
+		if(keys[global.util.VK_LEFT])
+			newLeft -= linearDistEachFrame;
+			
+		if(keys[global.util.VK_RIGHT]) 
+			newLeft += linearDistEachFrame;
+			
+		if(keys[global.util.VK_UP]) 
+			newTop -= linearDistEachFrame;
+			
+		if(keys[global.util.VK_DOWN]) 
+			newTop += linearDistEachFrame;
+			
+		if(newLeft != player.left || newTop != player.top) {
+			player.left = newLeft;
+			player.top = newTop;
+		}
+        
     });
     
     client.on('sync', function(data) {
