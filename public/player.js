@@ -25,27 +25,21 @@ function Player(data, playable) {
 		var linearSpeed = 300; //px/s
 		var linearDistEachFrame = linearSpeed * period;
 		
-		if(keys[util.VK_LEFT])
+		if(keys[util.VK_LEFT] || keys[util.VK_A])
 			newLeft -= linearDistEachFrame;
 			
-		if(keys[util.VK_RIGHT]) 
+		if(keys[util.VK_RIGHT] || keys[util.VK_D]) 
 			newLeft += linearDistEachFrame;
 			
-		if(keys[util.VK_UP]) 
+		if(keys[util.VK_UP] || keys[util.VK_W]) 
 			newTop -= linearDistEachFrame;
 			
-		if(keys[util.VK_DOWN]) 
+		if(keys[util.VK_DOWN] || keys[util.VK_S]) 
 			newTop += linearDistEachFrame;
 			
 		if(newLeft != this.left || newTop != this.top) {
-			//this.left = newLeft;
-			//this.top = newTop;
-			//console.log('new');
-			//socket.emit('sync',Players);
-			console.time("time");
-			console.log(newTop,newLeft);
 			socket.emit('sync',this.id,newLeft,newTop);
-			pause=true;
+			update=true;
 		}
 	}
 	

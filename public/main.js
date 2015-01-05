@@ -13,7 +13,7 @@ window.requestAnimFrame = (function(callback){
 
 function animate(lastTime){
 
-	if(!pause) {
+	if(!update) {
 		//update
 		var date = new Date();
 		var time = date.getTime();
@@ -33,21 +33,16 @@ function animate(lastTime){
 	});
 }
 
-socket = io.connect('http://yuccaberry.no-ip.org:3000/');
+socket = io();
 Players = {};
 keys = [];
-pause = false;
+update = false;
 
 $(document).keydown(function(e){
 	var key = (e.keyCode ? e.keyCode : e.which);
 	
 	if(!keys[key])
 		keys[key] = true;
-		
-	//prevents default key action
-	//if($.inArray(key,[37,39,32]) != -1) {
-	//	e.preventDefault();	
-	//}
 });
 
 $(document).keyup(function(e){
@@ -63,18 +58,6 @@ $(window).blur(function() {
 });
 
 $(document).ready(function(){ //main function
-	 /*$('#send').click(function() {
-		var msg = $('#field').val();
-		if(msg) {
-			socket.send(msg);
-			$('body').append('</br>You say: '+msg);
-			$('#field').val('');
-		}
-	});
-		
-	$('form').on('submit', function () {
-		return false;
-	});*/
 	
 	socket.on('init', function (players,id) {
 		console.log(players,'init');
@@ -88,14 +71,7 @@ $(document).ready(function(){ //main function
 		Players[player.id] = new Player(player);
 	});
 	
-	/*socket.on('message', function (data) {
-		console.log(data);
-		//var messages = data.messages;
-		//for(var i in messages)
-		//	$('body').append('</br>'+messages[i].user +' says: '+messages[i].message);
-	});*/
-	
-	socket.on('disconnect', function (player) {
+	socket.on('player_disconnect', function (player) {
 		console.log(player.id,'disconnected');
 		Players[player.id].disconnect();
 		delete Players[player.id];
@@ -103,14 +79,15 @@ $(document).ready(function(){ //main function
 	
 	socket.on('sync', function (players) {
 
+		console.log('update')
+
 		for(var p in players) {
 			Players[p].top = players[p].top;
 			Players[p].left = players[p].left;
-			console.log(players[p].top,players[p].left);
 		}
-		console.timeEnd("time");
-		pause=false;
-		//console.log('syncing');
+
+		update=false;
+
 	});
 	
 	animate();
